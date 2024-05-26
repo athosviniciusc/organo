@@ -3,6 +3,7 @@ import Banner from "./components/Banner/Banner";
 import Formulario from "./components/Formulario";
 import Rodape from "./components/Rodape";
 import Time from "./components/Time";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [colaboradores, setColaboradores] = useState([]);
@@ -11,58 +12,93 @@ function App() {
     setColaboradores([...colaboradores, colaborador]);
   };
 
-  const times = [
+  const [times, setTimes] = useState([
     {
+      id: uuidv4(),
       nome: "Programadores",
-      corPrimaria: "#57c278",
-      corSecundaria: "#d9f7e9",
+      cor: "#d9f7e9",
     },
     {
+      id: uuidv4(),
       nome: "Front-End",
-      corPrimaria: "#82cffa",
-      corSecundaria: "#e8f8ff",
+      cor: "#e8f8ff",
     },
     {
+      id: uuidv4(),
       nome: "Data Science",
-      corPrimaria: "#a6d157",
-      corSecundaria: "#f0f8e2",
+      cor: "#f0f8e2",
     },
     {
+      id: uuidv4(),
       nome: "Devops",
-      corPrimaria: "#e06b69",
-      corSecundaria: "#fde7e8",
+      cor: "#fde7e8",
     },
     {
+      id: uuidv4(),
       nome: "Ux e Design",
-      corPrimaria: "#db6ebf",
-      corSecundaria: "#eae9f5",
+      cor: "#eae9f5",
     },
     {
+      id: uuidv4(),
       nome: "Mobile",
-      corPrimaria: "#ffb405",
-      corSecundaria: "#fff5d9",
+      cor: "#fff5d9",
     },
     {
+      id: uuidv4(),
       nome: "Inovação e Gestão",
-      corPrimaria: "#ffba29",
-      corSecundaria: "#ffeedf",
+      cor: "#ffeedf",
     },
-  ];
+  ]);
+
+  function deletarColaborador(id) {
+    setColaboradores(
+      colaboradores.filter((colaborador) => {
+        return colaborador.id !== id;
+      })
+    );
+  }
+  function mudarCorDoTime(cor, id) {
+    setTimes(
+      times.map((time) => {
+        if (time.id === id) {
+          time.cor = cor;
+        }
+        return time;
+      })
+    );
+  }
+
+  function cadastrarTime(novoTime) {
+    setTimes([...times, { ...novoTime, id: uuidv4() }]);
+  }
+
+  function aoFavoritar(id) {
+    setColaboradores(
+      colaboradores.map((colaborador) => {
+        if (colaborador.id === id) colaborador.favorito = !colaborador.favorito;
+        return colaborador;
+      })
+    );
+  }
   return (
     <div>
       <Banner />
       <Formulario
+        cadastrarTime={cadastrarTime}
         times={times.map((time) => time.nome)}
-        aoColoaboradorCadastrado={(colaborador) =>
-          aoNovoColaboradorAdicionado(colaborador)
-        }
+        aoColoaboradorCadastrado={(colaborador) => {
+          aoNovoColaboradorAdicionado(colaborador);
+        }}
       />
       {times.map((time) => (
         <Time
+          mudarCor={mudarCorDoTime}
           key={time.nome}
+          id={time.id}
           nome={time.nome}
-          corPrimaria={time.corPrimaria}
-          corSecundaria={time.corSecundaria}
+          aoFavoritar={aoFavoritar}
+          aoDeletar={deletarColaborador}
+          cor={time.cor}
           colaboradores={colaboradores.filter(
             (colaborador) => colaborador.time === time.nome
           )}
