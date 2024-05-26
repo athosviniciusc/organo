@@ -1,0 +1,27 @@
+.footer {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #6278F7;
+}
+
+.redesSociais img {
+  margin-right: 50px; /* Espaçamento entre as imagens das redes sociais */
+  margin-left: 50px; /* Espaçamento entre as imagens das redes sociais */
+}
+
+.col-4 {
+  flex: 1;
+  text-align: center; /* Centraliza o conteúdo das divs .col-4 */
+  margin-left: 20%; /* Espaçamento entre as imagens das redes sociais */
+}
+
+/* Ajuste para a div que contém o texto "Desenvolvido por Alura" */
+.col-4:last-child {
+  text-align: right;
+  color: #fff;
+  font-size: 24px;
+  margin-right: 50px;
+}
